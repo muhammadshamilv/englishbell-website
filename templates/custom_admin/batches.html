@@ -1,0 +1,196 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Asset Management | Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon.png' %}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon.png' %}">
+        <link rel="apple-touch-icon" href="{% static 'img/favicon.png' %}">
+    
+
+    <!-- Bootstrap -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Theme -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/admin.css' %}" rel="stylesheet">
+
+            <!-- PWA Admin -->
+            <link rel="manifest" href="{% static 'pwa/admin-manifest.json' %}">
+            <meta name="theme-color" content="#0d6efd">
+        
+            <!-- iPhone Support -->
+            <link rel="apple-touch-icon" href="{% static 'pwa/icons/admin-192.png' %}">
+            <meta name="apple-mobile-web-app-capable" content="yes">
+            <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+</head>
+
+<body class="admin-dashboard-body">
+
+    <div class="admin-wrapper">
+      <!-- Sidebar -->
+      <div class="admin-sidebar" id="adminSidebar">
+    
+        <div class="admin-brand text-center mb-4">
+            <img src="{% static 'img/admin-logo.png' %}" class="admin-logo mb-2">
+            <small class="text-white-50">Admin Panel</small>
+        </div>
+
+        <a href="{% url 'admin_dashboard' %}">
+            <i class="fa fa-home me-2"></i> Dashboard
+        </a>
+
+        <a href="{% url 'admin_enquiries' %}">
+            <i class="fa fa-envelope me-2"></i> Enquiries
+        </a>        
+
+        <a href="{% url 'admin_assets' %}">
+            <i class="fa fa-photo-video me-2"></i> Assets
+        </a>        
+
+        <a href="{% url 'admin_reviews' %}">
+            <i class="fa fa-star me-2"></i> Reviews
+        </a>
+
+        <a href="{% url 'admin_advertisements' %}">
+            <i class="fa fa-bullhorn me-2"></i> Advertisements
+        </a>
+        <a href="{% url 'admin_batches' %}" class="active">
+            <i class="fa fa-users me-2"></i> Successful Batches
+        </a>
+
+        <hr class="bg-light">
+
+        <a href="{% url 'admin_logout' %}">
+            <i class="fa fa-sign-out-alt me-2"></i> Logout
+        </a>
+
+    </div>
+    
+        <!-- Content -->
+        <div class="admin-content">
+    
+            <!-- Topbar -->
+            <div class="admin-topbar mb-4">
+                <div class="d-flex justify-content-between align-items-center">
+    
+                    <div class="d-flex align-items-center gap-3">
+                        <button class="menu-toggle d-md-none" onclick="toggleSidebar()">
+                            <i class="fa fa-bars"></i>
+                        </button>
+    
+                        <div>
+                            <h5 class="mb-0 fw-semibold">Successful Batches</h5>
+                            <small class="text-muted">Upload and manage batch photos</small>
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+    
+    
+            <!-- Upload Card -->
+            <div class="admin-table-card mb-4">
+    
+                <h6 class="mb-3 fw-semibold">Upload New Batch</h6>
+    
+                <form method="POST" action="{% url 'upload_batch' %}" enctype="multipart/form-data" onsubmit="return confirmAssetUpload();">
+                    {% csrf_token %}
+    
+                    <div class="row g-3">
+    
+                        <div class="col-md-4">
+                            <input type="text" name="title"
+                                   class="form-control admin-input"
+                                   placeholder="Batch title (optional)">
+                        </div>
+    
+                        <div class="col-md-4">
+                            <input type="file" name="image"
+                                   class="form-control admin-input"
+                                   required>
+                        </div>
+    
+                        <div class="col-md-2">
+                            <button class="btn btn-primary w-100">
+                                Upload
+                            </button>
+                        </div>
+    
+                    </div>
+                </form>
+    
+            </div>
+    
+    
+            <!-- Batch Images Grid -->
+            <div class="admin-table-card">
+    
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="mb-0 fw-semibold">All Batches</h6>
+                </div>
+    
+                <div class="row g-4">
+    
+                    {% for batch in batches %}
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+    
+                        <div class="asset-card h-100">
+    
+                            <!-- Preview -->
+                            <div class="asset-preview asset-click">
+                                <img src="{{ batch.image.url }}" alt="Batch">
+                            </div>
+    
+                            <!-- Body -->
+                            <div class="asset-body text-center">
+    
+                                <small class="d-block mb-2 text-muted">
+                                    {{ batch.title|default:"Batch Image" }}
+                                </small>
+    
+                                <a href="{% url 'delete_batch' batch.id %}"
+                                   class="btn btn-sm btn-danger admin-action-btn"
+                                   onclick="return confirm('Delete this batch image?');">
+                                    Delete
+                                </a>
+    
+                            </div>
+    
+                        </div>
+    
+                    </div>
+                    {% empty %}
+                    <div class="col-12 text-center py-4 text-muted">
+                        No batch images uploaded
+                    </div>
+                    {% endfor %}
+    
+                </div>
+    
+            </div>
+    
+        </div>
+    
+    </div>
+    
+    <script src="{% static 'js/admin.js' %}"></script>
+
+    <script>
+        function confirmAssetUpload() {
+            return confirm("Upload this batch?");
+        }
+        </script>
+    
+    </body>
+
+
+</html>

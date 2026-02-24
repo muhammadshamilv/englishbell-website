@@ -1,0 +1,206 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Enquiries | English Bell Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon.png' %}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon.png' %}">
+        <link rel="apple-touch-icon" href="{% static 'img/favicon.png' %}">
+    
+
+        <!-- Bootstrap -->
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    
+        <!-- Font Awesome (ADD THIS) -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    
+        <!-- Main Theme -->
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    
+        <!-- Admin Style -->
+        <link href="{% static 'css/admin.css' %}" rel="stylesheet">
+
+                <!-- PWA Admin -->
+    <link rel="manifest" href="{% static 'pwa/admin-manifest.json' %}">
+    <meta name="theme-color" content="#0d6efd">
+
+    <!-- iPhone Support -->
+    <link rel="apple-touch-icon" href="{% static 'pwa/icons/admin-192.png' %}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+</head>
+<body class="admin-dashboard-body">
+
+    <div class="admin-wrapper">
+    
+        <!-- Sidebar -->
+        <div class="admin-sidebar" id="adminSidebar">
+    
+            <div class="admin-brand text-center mb-4">
+                <img src="{% static 'img/admin-logo.png' %}" class="admin-logo mb-2">
+                <small class="text-white-50">Admin Panel</small>
+            </div>
+    
+            <a href="{% url 'admin_dashboard' %}">
+                <i class="fa fa-home me-2"></i> Dashboard
+            </a>
+    
+            <a href="{% url 'admin_enquiries' %}" class="active">
+                <i class="fa fa-envelope me-2"></i> Enquiries
+            </a>        
+    
+            <a href="{% url 'admin_assets' %}">
+                <i class="fa fa-photo-video me-2"></i> Assets
+            </a>        
+    
+            <a href="{% url 'admin_reviews' %}">
+                <i class="fa fa-star me-2"></i> Reviews
+            </a>
+    
+            <a href="{% url 'admin_advertisements' %}">
+                <i class="fa fa-bullhorn me-2"></i> Advertisements
+            </a>
+
+            <a href="{% url 'admin_batches' %}">
+                <i class="fa fa-users me-2"></i> Successful Batches
+            </a>
+    
+            <hr class="bg-light">
+    
+            <a href="{% url 'admin_logout' %}">
+                <i class="fa fa-sign-out-alt me-2"></i> Logout
+            </a>
+    
+        </div>
+    
+    
+        <!-- Content -->
+        <div class="admin-content">
+    
+            <!-- Topbar -->
+            <div class="admin-topbar mb-4">
+    
+                <div class="d-flex justify-content-between align-items-center">
+    
+                    <div class="d-flex align-items-center gap-3">
+                        <button class="menu-toggle d-md-none" onclick="toggleSidebar()">
+                            <i class="fa fa-bars"></i>
+                        </button>
+    
+                        <div>
+                            <h5 class="mb-0 fw-semibold">Enquiry Management</h5>
+                            <small class="text-muted">View and manage student enquiries</small>
+                        </div>
+                    </div>
+    
+                </div>
+    
+            </div>
+    
+    
+            <!-- Search Card -->
+            <div class="admin-table-card mb-4">
+    
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h6 class="mb-0 fw-semibold">Search Enquiries</h6>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text"
+                               id="searchEnquiry"
+                               class="form-control admin-search"
+                               placeholder="Search by name, email or phone...">
+                    </div>
+                </div>
+    
+            </div>
+    
+    
+            <!-- Table Card -->
+            <div class="admin-table-card">
+    
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="mb-0 fw-semibold">All Enquiries</h6>
+                </div>
+    
+                <div class="table-responsive">
+                    <table class="table admin-table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Profession</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for enquiry in enquiries %}
+                            <tr>
+                                <td>{{ enquiry.name }}</td>
+                                <td>{{ enquiry.email }}</td>
+                                <td>{{ enquiry.phone }}</td>
+                                <td>{{ enquiry.profession }}</td>
+                                <td class="text-center">
+    
+                                    {% if enquiry.contacted %}
+                                        <span class="badge bg-success">Contacted</span>
+                                    {% else %}
+                                    <a href="{% url 'mark_contacted' enquiry.id %}" 
+                                    class="btn btn-sm btn-primary"
+                                    onclick="return confirmContact();">
+                                     Mark Contacted
+                                 </a>
+                                    {% endif %}
+    
+                                    <br>
+    
+                                    <a href="{% url 'delete_enquiry' enquiry.id %}" 
+                                       class="btn btn-sm btn-danger admin-action-btn"
+                                       onclick="return confirm('This enquiry will be permanently deleted.\n\nAre you sure?');">
+                                        Delete
+                                    </a>
+    
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center py-4">
+                                    No enquiries found
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+    
+            </div>
+    
+        </div>
+    
+    </div>
+    
+    <script src="{% static 'js/admin.js' %}"></script>
+    
+    <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register("{% static 'pwa/admin-sw.js' %}")
+        .then(function() {
+            console.log("Admin PWA Ready");
+        });
+    }
+    </script>
+
+    <script>
+        function confirmContact() {
+            return confirm("Are you sure you contacted this student?");
+        }
+        </script>
+    
+    </body>
+</html>
