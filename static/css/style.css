@@ -716,10 +716,9 @@ body {
     height: 65px;
     max-width: 1200px;
     border-radius: 14px;
-    background: rgba(255,255,255,0.25);
-    backdrop-filter: blur(8px);
+    background: rgba(255,255,255,0.95);
     transition: all 0.4s ease;
-    z-index: 9999;
+    z-index: 1030; /* Bootstrap safe value */
 }
 
 /* When page scrolls */
@@ -2222,13 +2221,11 @@ body {
 /* Dark glass background overlay */
 .modal-backdrop.show {
     background-color: rgba(10, 18, 40, 0.75);
-    backdrop-filter: blur(6px);
 }
 
 /* Modal container */
 .premium-enquiry-modal {
-    background: rgba(255,255,255,0.96);
-    backdrop-filter: blur(12px);
+    background: #ffffff;
     border-radius: 18px;
     box-shadow: 0 40px 120px rgba(0,0,0,0.25);
     overflow: hidden;
@@ -2548,51 +2545,33 @@ html, body {
 }
 
 
-/* ======================================
-   MOBILE ENQUIRY MODAL — FINAL FIX
-====================================== */
-
+/* ===== Mobile Safe Enquiry Modal ===== */
 @media (max-width: 768px) {
 
-    /* Center modal with spacing */
-    .modal-dialog {
+    .enquiry-dialog {
         margin: 20px auto;
         width: 92%;
         max-width: 92%;
     }
 
-    /* Card style */
-    .modal-content {
+    .premium-enquiry-modal {
         border-radius: 16px;
-        height: auto;
-        max-height: 90vh;
-        overflow-y: auto;
     }
 
-    /* Body spacing */
     .premium-enquiry-modal .modal-body {
         padding: 20px 16px 25px;
     }
 
     .premium-enquiry-modal .modal-header {
-        padding: 16px 16px 8px;
+        padding: 16px;
     }
 
-    /* Inputs full width */
-    .premium-enquiry-modal .form-control,
-    .premium-enquiry-modal .form-select {
-        width: 100%;
-        height: 48px;
-    }
-
-    /* Button spacing */
-    .premium-enquiry-modal .btn-primary {
-        width: 100%;
-        padding: 14px;
-        font-size: 16px;
+    .premium-enquiry-modal .btn-close {
+        width: 44px;
+        height: 44px;
+        -webkit-tap-highlight-color: transparent;
     }
 }
-
 
 /* ======================================
    MOBILE MENU BACKGROUND FIX
@@ -2656,4 +2635,13 @@ html, body {
     height: 42px;
     background-size: 14px;
     -webkit-tap-highlight-color: transparent;
+}
+
+/* ===== Modal Layer Fix (Mobile Tap Issue) ===== */
+.modal {
+    z-index: 1060 !important;
+}
+
+.modal-backdrop {
+    z-index: 1050 !important;
 }

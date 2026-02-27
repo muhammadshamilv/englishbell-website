@@ -272,25 +272,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-/* ======================================
-   Enquiry Modal – Single Tap Close Fix
-====================================== */
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    const enquiryModalEl = document.getElementById("enquiryModal");
-    const closeBtn = document.getElementById("enquiryCloseBtn");
-
-    if (!enquiryModalEl || !closeBtn) return;
-
-    const enquiryModal = bootstrap.Modal.getOrCreateInstance(enquiryModalEl);
-
-    // Fix double-tap issue on mobile
-    closeBtn.addEventListener("touchend", function (e) {
-        e.preventDefault();
-        enquiryModal.hide();
-    }, { passive: false });
-
-});
 
 })(jQuery);
+
+/* ===== Force Mobile Tap Close Fix ===== */
+document.addEventListener("touchstart", function (e) {
+    const closeBtn = e.target.closest(".btn-close");
+    if (!closeBtn) return;
+
+    const modalEl = closeBtn.closest(".modal");
+    if (!modalEl) return;
+
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) {
+        modal.hide();
+    }
+}, { passive: true });

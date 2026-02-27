@@ -1,18 +1,30 @@
-<!-- Enquiry Modal Start -->
-<div class="modal fade" id="enquiryModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content premium-enquiry-modal border-0">
-            <div class="modal-header border-0">
-                <h4 class="modal-title fw-bold">Request a Call Back</h4>
-                <button type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-                id="enquiryCloseBtn">
-        </button>
-    </div>
+<!-- ===== Premium Enquiry Modal (Final Stable) ===== -->
+<div class="modal fade"
+     id="enquiryModal"
+     tabindex="-1"
+     aria-hidden="true"
+     data-bs-backdrop="true"
+     data-bs-keyboard="true">
 
-            <div class="modal-body p-4">
+    <div class="modal-dialog modal-dialog-centered modal-lg enquiry-dialog">
+        <div class="modal-content premium-enquiry-modal border-0">
+
+            <!-- Header -->
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold text-primary">
+                    Request a Call Back
+                </h5>
+
+                <!-- IMPORTANT: Bootstrap native close only -->
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body">
                 <p class="text-muted mb-4">
                     Fill your details and our team will contact you soon.
                 </p>
@@ -47,14 +59,14 @@
                         </select>
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100 py-3 fw-bold">
-                        Submit
+                    <button type="submit"
+                            class="btn btn-primary w-100 py-3 fw-bold">
+                        Submit Enquiry
                     </button>
-
                 </form>
             </div>
 
         </div>
     </div>
 </div>
-<!-- Enquiry Modal End -->
+<!-- ===== End Modal ===== -->
