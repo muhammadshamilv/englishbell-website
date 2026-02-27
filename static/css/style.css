@@ -702,13 +702,13 @@ body {
 
 /* Space for fixed navbar */
 body {
-    padding-top: 85px;
+    padding-top: 65px;
 }
 
 /* Navbar base */
 .premium-navbar {
     position: fixed;
-    top: 15px;
+    top: 0;
     left: 0;
     right: 0;
     margin: 0 auto;
@@ -801,7 +801,7 @@ body {
 @media (max-width: 991px) {
 
     body {
-        padding-top: 70px;
+        padding-top: 65px;
     }
 
     .premium-navbar {
@@ -809,7 +809,7 @@ body {
         left: 0;
         right: 0;
         margin: 0 auto;
-        top: 10px;
+        top: 0;
         border-radius: 12px;
     }
 
@@ -832,14 +832,14 @@ body {
 
 .premium-hero {
     position: relative;
-    margin-top: -40px; /* connects with floating navbar */
+    margin-top: 0; /* connects with floating navbar */
 }
 
 /* Slide */
 .hero-slide {
     position: relative;
     height: 95vh;
-    min-height: 600px;
+    min-height: 720px;
     overflow: hidden;
 }
 
@@ -852,6 +852,71 @@ body {
     object-fit: cover;
     z-index: 1;
 }
+
+
+
+/* ======================================
+   FINAL HERO MOBILE (Place at END of file)
+====================================== */
+@media (max-width: 768px) {
+
+    /* Hero size */
+    .hero-slide {
+        height: 360px !important;
+        min-height: 360px !important;
+    }
+
+    .hero-bg {
+        object-fit: cover;
+        object-position: center right;
+    }
+
+    /* Content position */
+    .hero-content {
+        height: 360px !important;
+        padding: 20px 14px 10px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        text-align: center;
+    }
+
+    /* Text sizes */
+    .hero-subtitle {
+        font-size: 10px !important;
+        margin-bottom: 6px;
+    }
+
+    .hero-title {
+        font-size: 16px !important;
+        line-height: 1.3;
+        margin-bottom: 6px;
+    }
+
+    .hero-text {
+        font-size: 11px !important;
+        margin-bottom: 10px;
+    }
+
+    /* Button fix */
+    .hero-btn {
+        display: inline-block !important;
+        padding: 7px 16px !important;
+        font-size: 11px !important;
+        border-radius: 6px;
+    }
+
+    /* Hero arrows */
+    .premium-hero-carousel .owl-prev,
+    .premium-hero-carousel .owl-next {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+}
+
+
+
 
 /* Premium gradient overlay */
 .hero-overlay {
@@ -955,23 +1020,6 @@ body {
     background: var(--primary);
     border-color: var(--primary);
     transform: scale(1.1);
-}
-
-
-/* Mobile */
-@media (max-width: 768px) {
-    .hero-title {
-        font-size: 28px;
-    }
-
-    .hero-text {
-        font-size: 15px;
-    }
-
-    .hero-slide,
-    .hero-content {
-        height: 70vh;
-    }
 }
 
 /* ==============================
@@ -1130,6 +1178,28 @@ body {
         display: none;
     }
 }
+
+/* Mobile stats position fix */
+@media (max-width: 768px) {
+    .hero-stats-wrapper {
+        margin-top: -40px;   /* less overlap */
+        padding: 0 12px;
+    }
+
+    .hero-stats {
+        padding: 18px 10px;
+        border-radius: 14px;
+    }
+
+    .hero-stat-item h3 {
+        font-size: 22px;
+    }
+
+    .hero-stat-item p {
+        font-size: 12px;
+    }
+}
+
 
 /* ==========================================
    PREMIUM SERVICES SECTION
@@ -2644,4 +2714,142 @@ html, body {
 
 .modal-backdrop {
     z-index: 1050 !important;
+}
+
+/* ======================================
+   PREMIUM BATCH SCROLL CONTROLS
+====================================== */
+/* Wrapper for arrows positioning */
+.premium-batch-wrapper {
+    position: relative;
+}
+
+/* Arrow buttons */
+.batch-scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.9);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    color: var(--primary);
+    font-size: 20px;
+    z-index: 10;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Left arrow */
+.batch-scroll-btn.left {
+    left: -10px;
+}
+
+/* Right arrow */
+.batch-scroll-btn.right {
+    right: -10px;
+}
+
+/* Hover */
+.batch-scroll-btn:hover {
+    background: var(--primary);
+    color: #fff;
+}
+
+/* ===== Mobile Fix ===== */
+@media (max-width: 768px) {
+
+    .batch-scroll-btn {
+        width: 38px;
+        height: 38px;
+    }
+
+    .batch-scroll-btn.left {
+        left: 5px;   /* move inside screen */
+    }
+
+    .batch-scroll-btn.right {
+        right: 5px;  /* move inside screen */
+    }
+}
+
+
+/* ======================================
+   FLOATING CONTACT BUTTONS (Premium)
+====================================== */
+
+.floating-contact {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    z-index: 999;
+}
+
+/* Common button style */
+.float-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 22px;
+    text-decoration: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* WhatsApp */
+.float-btn.whatsapp {
+    background: #25D366;
+}
+
+/* Call */
+.float-btn.call {
+    background: var(--primary);
+}
+
+/* Hover effect */
+.float-btn:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.35);
+}
+
+/* Pulse animation */
+.float-btn::before {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px solid rgba(0,0,0,0.15);
+    animation: floatPulse 2s infinite;
+}
+
+@keyframes floatPulse {
+    0% { transform: scale(0.9); opacity: 0.7; }
+    70% { transform: scale(1.3); opacity: 0; }
+    100% { opacity: 0; }
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+
+    .floating-contact {
+        bottom: 15px;
+        left: 15px;
+        gap: 10px;
+    }
+
+    .float-btn {
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+    }
 }

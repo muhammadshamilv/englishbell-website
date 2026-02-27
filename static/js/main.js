@@ -166,64 +166,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-
-
-    // ===============================
-// Premium Batch Alignment Control
-// ===============================
-document.addEventListener("DOMContentLoaded", function () {
-
-    const batchSlider = document.querySelector(".premium-batch-slider");
-    if (!batchSlider) return;
-
-    const items = batchSlider.querySelectorAll(".batch-slide");
-    const count = items.length;
-
-    if (count > 3) {
-        batchSlider.classList.add("many-items");
-    }
-
-});
-
-
-// ===============================
-// Successful Batches Auto Slider
-// ===============================
-document.addEventListener("DOMContentLoaded", function () {
-
-    const slider = document.getElementById("batchesSlider");
-    if (!slider) return;
-
-    const items = slider.querySelectorAll(".asset-slide");
-    const itemCount = items.length;
-
-    // Few items → center only
-    if (itemCount <= 3) {
-        slider.classList.remove("many-items");
-        return;
-    }
-
-    // Many items → left align + auto scroll
-    slider.classList.add("many-items");
-
-    let scrollAmount = 0;
-
-    setInterval(() => {
-        scrollAmount += 360;
-
-        if (scrollAmount >= slider.scrollWidth - slider.clientWidth) {
-            scrollAmount = 0;
-        }
-
-        slider.scrollTo({
-            left: scrollAmount,
-            behavior: "smooth"
-        });
-
-    }, 3500);
-
-});
-
 /* ======================================
    Mobile Navbar – Perfect Behavior
    Open / Close / Outside Click
@@ -288,3 +230,73 @@ document.addEventListener("touchstart", function (e) {
         modal.hide();
     }
 }, { passive: true });
+
+/* ======================================
+   Successful Batches – Final Stable Version
+====================================== */
+document.addEventListener("DOMContentLoaded", function () {
+
+    const slider = document.getElementById("batchSlider");
+    const leftBtn = document.getElementById("batchScrollLeft");
+    const rightBtn = document.getElementById("batchScrollRight");
+
+    if (!slider) return;
+
+    let speed = 0.5;
+    let animationId;
+    let isPaused = false;
+
+    // Duplicate slides for infinite effect
+    slider.innerHTML += slider.innerHTML;
+
+    // Get dynamic card width (mobile safe)
+    const slide = slider.querySelector(".batch-slide");
+    const cardWidth = slide.offsetWidth + 30; // include gap
+
+    function autoScroll() {
+        if (!isPaused) {
+            slider.scrollLeft += speed;
+
+            if (slider.scrollLeft >= slider.scrollWidth / 2) {
+                slider.scrollLeft = 0;
+            }
+        }
+        animationId = requestAnimationFrame(autoScroll);
+    }
+
+    autoScroll();
+
+    // ===== Pause on user interaction =====
+    slider.addEventListener("touchstart", () => isPaused = true);
+    slider.addEventListener("touchend", () => isPaused = false);
+    slider.addEventListener("mouseenter", () => isPaused = true);
+    slider.addEventListener("mouseleave", () => isPaused = false);
+
+    // ===== Arrow Controls =====
+    function scrollManual(distance) {
+        isPaused = true;
+
+        slider.scrollBy({
+            left: distance,
+            behavior: "smooth"
+        });
+
+        // Resume auto scroll after manual action
+        setTimeout(() => {
+            isPaused = false;
+        }, 800);
+    }
+
+    if (leftBtn) {
+        leftBtn.addEventListener("click", function () {
+            scrollManual(-cardWidth);
+        });
+    }
+
+    if (rightBtn) {
+        rightBtn.addEventListener("click", function () {
+            scrollManual(cardWidth);
+        });
+    }
+
+});
